@@ -14,4 +14,4 @@ class User(db.Model):
   name = db.Column(db.String)
   password = db.Column(db.String)
   email = db.Column(db.String, unique=True)
-  role = db.Column(db.String)
+  role = db.Column(db.String, default="user")
