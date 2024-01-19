@@ -15,3 +15,12 @@ class User(db.Model):
   password = db.Column(db.String)
   email = db.Column(db.String, unique=True)
   role = db.Column(db.String, default="user")
+  posts = db.relationship('Post', backref='users')
+
+class Post(db.Model):
+  __tablename__ = 'posts'
+  id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+  title = db.Column(db.String)
+  description = db.Column(db.String)
+  image_url = db.Column(db.String)
+  created_by = db.Column(db.String, db.ForeignKey('users.username'))

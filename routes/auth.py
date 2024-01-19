@@ -1,46 +1,9 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import current_app as app, render_template, request, session, redirect, url_for
+from models import User
 from db import db
-import os
-
-app = Flask(__name__)
-curr_dir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(curr_dir, 'db.sqlite3')}"
-app.config['UPLOAD_FOLDER'] = "static"
-
-app.secret_key = "lrkwkughoiuerhngf"
-
-db.init_app(app)
-app.app_context().push()
-
-from models import User, Post
-
-# db.create_all()
-
-# user = User(username="abc", name="abc", password="abc", email="test@gmail.com", role="admin")
-# db.session.add(user)
-# db.session.commit()
-
-# user = db.session.query(User).filter(User.username=="abc").first()
-# if user is None:
-#   print('none')
-# else:
-#   user.name = "ABCD"
-#   db.session.commit()
-
-# db.session.query(User).filter(User.username=="abc").delete()
-# db.session.commit()
-
-@app.route("/admin")
-def adminHomePage():
-  return "ADMIN"
-
-@app.route("/user")
-def userHomePage():
-  return "USER"
 
 @app.route('/')
 def home():
-  print(session)
   if 'username' in session:
     if session['role'] == 'admin':
       return redirect(url_for('adminHomePage'))
@@ -89,8 +52,3 @@ def signup():
       return render_template("signup.html", err_msg="User already exists")
     else:
       return redirect(url_for('login'))
-
-from routes.post import *
-
-if __name__ == '__main__':
-  app.run(port=8000, debug=True)
