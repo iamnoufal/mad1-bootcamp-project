@@ -65,5 +65,6 @@ def edit_post(post_id):
 def delete_post(post_id):
   print(post_id)
   db.session.query(Post).filter(Post.id==post_id).delete()
+  db.session.commit()
   print("deleted")
   return redirect(url_for('home'))

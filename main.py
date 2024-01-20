@@ -34,9 +34,6 @@ from models import User, Post
 def adminHomePage():
   return "ADMIN"
 
-@app.route("/user")
-def userHomePage():
-  return "USER"
 
 @app.route('/')
 def home():
@@ -91,6 +88,7 @@ def signup():
       return redirect(url_for('login'))
 
 from routes.post import *
+from routes.user import *
 
 if __name__ == '__main__':
   app.run(port=8000, debug=True)
