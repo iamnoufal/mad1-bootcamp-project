@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from db import db
 import os
+from flask_restful import Api
 
 app = Flask(__name__)
 curr_dir = os.path.abspath(os.path.dirname(__file__))
@@ -10,9 +11,10 @@ app.config['UPLOAD_FOLDER'] = "static"
 app.secret_key = "lrkwkughoiuerhngf"
 
 db.init_app(app)
+api = Api(app)
 app.app_context().push()
 
-from models import User, Post
+from models import User, Post, Follower
 
 # db.create_all()
 
@@ -89,6 +91,12 @@ def signup():
 
 from routes.post import *
 from routes.user import *
+from routes.search import *
+
+
+from api.post import PostAPI
+
+api.add_resource(PostAPI, '/api/post', '/api/post/<post_id>')
 
 if __name__ == '__main__':
   app.run(port=8000, debug=True)
